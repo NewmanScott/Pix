@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Post</title>
+    {% load static %}
+    <style> 
+    body {
+        background: gray;
+      }
+      .navbar-brand img{
+        height: 32px;
+        width: 32px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="/"><img src="{% static 'img/camera-512.png' %}"></a>
+        <span class="navbar-text">Pix</span>
+        <ul class="navbar-nav ml-auto">
+            {% if request.session.userid %}
+            <li class="nav-item">
+                <a class="nav-link" href="/createpost">Create Post</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/mypage">My Page</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="/register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="container-fluid ">
+        <div class="row justify-content-center">
+            <div class="col-10 bg-dark text-white rounded mt-3 text-center p-3">
+                <h1>{{post.title}}</h1>
+                <h2>Posted by: {{post.user.username }}</h2>
+                <h2>Created at: {{post.updated_at }}</h2>
+                {% if request.session.userid %}
+                    {% if user not in post.favorited_by_users.all %}
+                <a href="favorite/{{post.id}}"><p>Favorite</p></a>
+                    {% else %}
+                <a href="unfavorite/{{post.id}}"><p>Unfavorite</p></a>
+                    {% endif %}
+                {% endif %}
+                {% if request.session.userid %}
+                    {% if user.admin == True or post in user.posts.all %}
+                    <a href="delete/{{post.id}}"><p>Delete</p></a>
+                    {% endif %}
+                {% endif %}
+                <img src="{{post.image.url}}">
+                <p>{{post.desc}}</p>
+                {% if request.session.userid %}
+                <form class="bg-dark text-white rounded" action="/commentonpage/{{post.id}}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="inputcomment">Comment</label>
+                        <textarea class="form-control" name="comment" id="inputcomment" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary float-right">Submit</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row ml-5 mt-3">
+            <ul class="list-unstyled">
+                {% for comment in comments %}
+                <li class="media bg-dark text-white rounded p-3 mb-1">
+                    <div class="media-body">
+                    <h5 class="mt-0 mb-1">{{comment.user.username}} {{comment.created_at}}</h5>
+                    {{comment.content}}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

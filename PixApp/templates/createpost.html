@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Register</title>
+    <style>
+        body {
+            background: grey;
+        }
+    </style>
+  </head>
+  <body>
+        <div class="container">
+                <div class="row mt-5 justify-content-center">
+                    <div class="col-6 ">
+                        {% if messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <ul>
+                            {% for message in messages %}
+                            <li>{{message}}</li>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        
+                        <form class="bg-dark p-5 text-white rounded" action="/processpost" enctype="multipart/form-data" method="POST">
+                            {% csrf_token %}
+                            <h1 class="text-center">Create a post</h1>
+                            <div class="form-group">
+                              <label for="inputtitle">Title</label>
+                              <input type="text" name="title" class="form-control" id="inputtitle" placeholder="Enter a title">
+                            </div>
+                            <div class="form-group">
+                              <label for="inputdescription">Description</label>
+                              <textarea class="form-control" name="desc" id="inputdescription" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputfile">Upload Picture</label>
+                                <input type="file" class="form-control-file" name="image" id="inputfile">
+                            </div>
+                            <button type="submit" class="btn btn-primary float-right">Submit</button>
+                          </form>
+                    </div>
+                </div>
+            </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Register</title>
+    <style>
+        body {
+        background: gray;
+      }
+      .navbar-brand img{
+        height: 32px;
+        width: 32px;
+      }
+
+    </style>
+    {% load static %}
+  </head>
+  <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a class="navbar-brand" href="/"><img src="{% static 'img/camera-512.png' %}"></a>
+            <span class="navbar-text">Pix</span>
+            <ul class="navbar-nav ml-auto">
+                {% if request.session.userid %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/createpost">Create Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/mypage">My Page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    <div class="container-fluid">
+    
+        <div class="row mt-3 ml-3 mr-3">
+            <div class="col bg-dark text-white rounded">
+                <h1 class="text-center">{{user.first_name}}'s Page</h1>
+                <h2>My Posts</h2>
+                {% for post in user_posts %}
+                <a class="text-white" href="/post/{{post.id}}"><p>{{post.title}}</p></a>
+                {% endfor %}
+                <h2>My Comments</h2>
+                {% for comment in user_comments %}
+                <a class="text-white" href="/post/{{comment.post.id}}"><p>{{comment.content}}</p></a>
+                {% endfor %}
+                <h2>My Favorite Posts</h1>
+                {% for favorite in user_favorites %}
+                <a class="text-white" href="/post/{{favorite.id}}"><p>{{favorite.title}}</p></a>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
